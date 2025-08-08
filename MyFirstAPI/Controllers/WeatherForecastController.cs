@@ -16,6 +16,7 @@ namespace MyFirstAPI.Controllers
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
+            //_logger.LogError("This is simple logging msg");
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
