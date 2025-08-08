@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyFirstAPI.Models;
+using MyFirstAPI.Services;
 
 namespace MyFirstAPI.Controllers
 {
@@ -7,6 +8,13 @@ namespace MyFirstAPI.Controllers
     [Route("api/[controller]")]
     public class PostsController : Controller
     {
+        private readonly PostsService _postsService;
+
+        PostsController()
+        {
+            _postsService = new PostsService();
+        }
+
         [HttpGet]
         public ActionResult<List<Post>> GetPosts()
         {
@@ -15,6 +23,19 @@ namespace MyFirstAPI.Controllers
                 new() { Id = 2, UserId = 1, Title = "Post2", Body = "The second post." },
                 new() { Id = 3, UserId = 1, Title = "Post3", Body = "The third post." }
             };
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Post>> GetPost(int id)
+        {
+            var post = await _postsService.GetPost(id);
+
+            if (post == null)
+            {
+                return NotFound();  
+            }
+
+            return Ok(post);
         }
     }
 }
