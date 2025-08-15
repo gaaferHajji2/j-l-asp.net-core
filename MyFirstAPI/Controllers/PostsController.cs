@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyFirstAPI.Models;
 using MyFirstAPI.Services;
+using System.Threading.Tasks;
 
 namespace MyFirstAPI.Controllers
 {
@@ -10,19 +11,17 @@ namespace MyFirstAPI.Controllers
     {
         private readonly PostsService _postsService;
 
-        PostsController()
+        public PostsController()
         {
             _postsService = new PostsService();
         }
 
         [HttpGet]
-        public ActionResult<List<Post>> GetPosts()
+        public async Task<ActionResult<List<Post>>> GetPosts()
         {
-            return new List<Post> {
-                new() { Id = 1, UserId = 1, Title = "Post1", Body = "The first post." },
-                new() { Id = 2, UserId = 1, Title = "Post2", Body = "The second post." },
-                new() { Id = 3, UserId = 1, Title = "Post3", Body = "The third post." }
-            };
+            var posts = _postsService.GetAllPosts();
+
+            return Ok(posts);
         }
 
         [HttpGet("{id}")]
@@ -36,6 +35,47 @@ namespace MyFirstAPI.Controllers
             }
 
             return Ok(post);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Post>> CreatePost(Post post)
+        {
+            await _postsService.CreatePost(post);
+
+            return CreatedAtAction(nameof(GetPost), new { id = post.Id}, post);
+        }
+
+        [HttpPut("id")]
+        public async Task<ActionResult> UpdatePost(int id, Post post)
+        {
+            if(id != post.Id)
+            {
+                return BadRequest();
+            }
+
+            var updatedPost = await _postsService.UpdatePost(id, post);
+
+            if(updatedPost == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(updatedPost);
+        }
+
+        [HttpDelete("id")]
+        public async Task<ActionResult> DeletePost(int id)
+        {
+            var post = await _postsService.GetPost(id);
+
+            if(post == null)
+            {
+                return NotFound();
+            }
+
+            await _postsService.DeletePost(id);
+
+            return NoContent();
         }
     }
 }
