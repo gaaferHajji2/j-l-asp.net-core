@@ -9,7 +9,7 @@ namespace MyFirstAPI.Controllers
     [Route("api/[controller]")]
     public class PostsController : Controller
     {
-        private readonly IPostsService _postsService;
+        private readonly IPostService _postsService;
 
         public PostsController(IPostService postsService)
         {
