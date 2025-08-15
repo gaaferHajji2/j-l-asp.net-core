@@ -9,11 +9,11 @@ namespace MyFirstAPI.Controllers
     [Route("api/[controller]")]
     public class PostsController : Controller
     {
-        private readonly PostsService _postsService;
+        private readonly IPostsService _postsService;
 
-        public PostsController()
+        public PostsController(IPostService postsService)
         {
-            _postsService = new PostsService();
+            _postsService = postsService;
         }
 
         [HttpGet]

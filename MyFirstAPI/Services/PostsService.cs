@@ -1,7 +1,7 @@
 ﻿using MyFirstAPI.Models;
 
 namespace MyFirstAPI.Services;
-public class PostsService
+public class PostsService : IPostService
 {
     private static readonly List<Post> AllPosts = new List<Post>();
 
