@@ -58,7 +58,7 @@ app.MapPost("/posts", async (IPostService postService, Post post) =>
 
 app.MapGet("/posts/{postId}", async (IPostService postService, int postId) =>
 {
-    var post = postService.GetPostAsync(postId);
+    var post = await postService.GetPostAsync(postId);
 
     return post == null ? Results.NotFound() : Results.Ok(post);
 }).WithName("get post by id").WithTags("Posts").WithOpenApi();
