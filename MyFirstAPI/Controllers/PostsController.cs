@@ -20,7 +20,7 @@ namespace MyFirstAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Post>>> GetPosts()
         {
-            var posts = postService.GetAllPosts();
+            var posts = await postService.GetAllPosts();
 
             return Ok(posts);
         }
