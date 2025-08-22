@@ -5,21 +5,22 @@ using System.Threading.Tasks;
 
 namespace MyFirstAPI.Controllers
 {
+    // Using primary constructor to init the service
     [ApiController]
     [Route("api/[controller]")]
-    public class PostsController : Controller
+    public class PostsController(IPostService postService) : Controller
     {
-        private readonly IPostService _postsService;
+        //private readonly IPostService _postsService;
 
-        public PostsController(IPostService postsService)
-        {
-            _postsService = postsService;
-        }
+        //public PostsController(IPostService postsService)
+        //{
+        //    _postsService = postsService;
+        //}
 
         [HttpGet]
         public async Task<ActionResult<List<Post>>> GetPosts()
         {
-            var posts = _postsService.GetAllPosts();
+            var posts = postService.GetAllPosts();
 
             return Ok(posts);
         }
@@ -27,7 +28,7 @@ namespace MyFirstAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Post>> GetPost(int id)
         {
-            var post = await _postsService.GetPost(id);
+            var post = await postService.GetPost(id);
 
             if (post == null)
             {
@@ -40,7 +41,7 @@ namespace MyFirstAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Post>> CreatePost(Post post)
         {
-            await _postsService.CreatePost(post);
+            await postService.CreatePost(post);
 
             return CreatedAtAction(nameof(GetPost), new { id = post.Id}, post);
         }
@@ -53,7 +54,7 @@ namespace MyFirstAPI.Controllers
                 return BadRequest();
             }
 
-            var updatedPost = await _postsService.UpdatePost(id, post);
+            var updatedPost = await postService.UpdatePost(id, post);
 
             if(updatedPost == null)
             {
@@ -66,14 +67,14 @@ namespace MyFirstAPI.Controllers
         [HttpDelete("id")]
         public async Task<ActionResult> DeletePost(int id)
         {
-            var post = await _postsService.GetPost(id);
+            var post = await postService.GetPost(id);
 
             if(post == null)
             {
                 return NotFound();
             }
 
-            await _postsService.DeletePost(id);
+            await postService.DeletePost(id);
 
             return NoContent();
         }
