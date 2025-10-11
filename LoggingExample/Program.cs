@@ -1,3 +1,5 @@
+using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -8,9 +10,18 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Logging.ClearProviders();
+
+// ADDING Serilog Logger
+var logger = new LoggerConfiguration().WriteTo.File(
+    Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs/logs.txt"),
+    rollingInterval: RollingInterval.Day, retainedFileCountLimit: 90)
+    .CreateLogger();
+
+builder.Logging.AddSerilog(logger);
+
 builder.Logging.AddConsole();   
-builder.Logging.AddDebug();
-builder.Logging.AddEventLog();
+//builder.Logging.AddDebug();
+//builder.Logging.AddEventLog();
 
 var app = builder.Build();
 
