@@ -7,10 +7,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();   
+builder.Logging.AddDebug();
+builder.Logging.AddEventLog();
 
-var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-Console.WriteLine("the envName is: " + envName);
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
