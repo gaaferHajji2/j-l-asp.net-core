@@ -1,0 +1,6 @@
+@JLokaTestMiddleware_HostAddress = http://localhost:5148
+
+GET {{JLokaTestMiddleware_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
