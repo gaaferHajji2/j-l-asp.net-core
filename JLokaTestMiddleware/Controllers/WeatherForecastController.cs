@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace JLokaTestMiddleware.Controllers
 {
@@ -28,6 +29,13 @@ namespace JLokaTestMiddleware.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpGet(Name ="GetHello")]
+        [EnableRateLimiting(policyName: "fixed")]
+        public ActionResult getHello()
+        {
+            return Ok("Hello Jafar Loka Rate Limiter World!!!");
         }
     }
 }

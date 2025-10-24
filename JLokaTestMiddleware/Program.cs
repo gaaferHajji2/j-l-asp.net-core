@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.RateLimiting;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,7 +9,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddRateLimiter(_ => _.AddFixedWindowLimiter(policyName: "fixed", options =>
+{
+    options.PermitLimit = 5;
+    options.Window = TimeSpan.FromSeconds(5);
+    options.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
+    options.QueueLimit = 2;
+}));
+
 var app = builder.Build();
+
+app.UseRateLimiter();
 
 app.Use(async (context, next) =>
 {
