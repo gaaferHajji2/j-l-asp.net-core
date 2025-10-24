@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Http.Timeouts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.Extensions.Logging;
+using System;
 
 namespace JLokaTestMiddleware.Controllers
 {
@@ -31,11 +34,30 @@ namespace JLokaTestMiddleware.Controllers
             .ToArray();
         }
 
-        [HttpGet(Name ="GetHello")]
+        [HttpPost(Name ="GetHello")]
         [EnableRateLimiting(policyName: "fixed")]
         public ActionResult getHello()
         {
             return Ok("Hello Jafar Loka Rate Limiter World!!!");
+        }
+
+        [HttpPut(Name = "Check time out")]
+        [RequestTimeout(5000)]
+
+        public async Task<ActionResult> checkTimeout() {
+            var _random = new Random();
+            var delay = _random.Next(1, 10);
+            _logger.LogInformation($"Delaying for {delay} seconds");
+            try
+            {
+                await Task.Delay(TimeSpan.FromSeconds(delay), Request.HttpContext.RequestAborted);
+            }
+            catch
+            {
+                _logger.LogWarning("The request timed out");
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, "The request timed out");
+            }
+            return Ok($"Hello! The task is complete in {delay} seconds");
         }
     }
 }

@@ -17,9 +17,12 @@ builder.Services.AddRateLimiter(_ => _.AddFixedWindowLimiter(policyName: "fixed"
     options.QueueLimit = 2;
 }));
 
+builder.Services.AddRequestTimeouts();
+
 var app = builder.Build();
 
 app.UseRateLimiter();
+app.UseRequestTimeouts();   
 
 app.Use(async (context, next) =>
 {
