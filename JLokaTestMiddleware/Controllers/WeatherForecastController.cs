@@ -42,8 +42,8 @@ namespace JLokaTestMiddleware.Controllers
         }
 
         [HttpPut(Name = "Check time out")]
-        [RequestTimeout(5000)]
-
+        //[RequestTimeout(5000)]
+        [RequestTimeout("short")]
         public async Task<ActionResult> checkTimeout() {
             var _random = new Random();
             var delay = _random.Next(1, 10);

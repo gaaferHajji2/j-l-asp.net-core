@@ -17,7 +17,14 @@ builder.Services.AddRateLimiter(_ => _.AddFixedWindowLimiter(policyName: "fixed"
     options.QueueLimit = 2;
 }));
 
-builder.Services.AddRequestTimeouts();
+// builder.Services.AddRequestTimeouts();
+builder.Services.AddRequestTimeouts(options =>
+{
+    options.DefaultPolicy = new Microsoft.AspNetCore.Http.Timeouts.RequestTimeoutPolicy { Timeout = TimeSpan.FromSeconds(5) };
+
+    options.AddPolicy("short", TimeSpan.FromSeconds(2));
+    options.AddPolicy("long", TimeSpan.FromSeconds(10));
+});
 
 var app = builder.Build();
 
