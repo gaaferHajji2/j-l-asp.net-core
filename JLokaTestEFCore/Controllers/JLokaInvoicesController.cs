@@ -38,7 +38,6 @@ namespace JLokaTestEFCore.Controllers
         }
 
         // PUT: api/JLokaInvoices/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutInvoice(Guid id, Invoice invoice)
         {
@@ -71,7 +70,6 @@ namespace JLokaTestEFCore.Controllers
         }
 
         // POST: api/JLokaInvoices
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Invoice>> PostInvoice(Invoice invoice)
         {
