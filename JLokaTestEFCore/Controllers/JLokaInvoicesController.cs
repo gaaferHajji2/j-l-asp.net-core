@@ -1,7 +1,8 @@
+using JLokaTestEFCore.Data;
+using JLokaTestEFCore.enums;
+using JLokaTestEFCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using JLokaTestEFCore.Data;
-using JLokaTestEFCore.Models;
 
 namespace JLokaTestEFCore.Controllers
 {
@@ -18,9 +19,18 @@ namespace JLokaTestEFCore.Controllers
 
         // GET: api/JLokaInvoices
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Invoice>>> GetInvoices()
+        public async Task<ActionResult<IEnumerable<Invoice>>> GetInvoices(
+            int page = 1, int pageSize = 10, InvoiceStatus? status = null
+        )
         {
-            return await _context.Invoices.ToListAsync();
+            return await _context
+                    .Invoices
+                    .AsQueryable()
+                    .Where(t1 => t1.Status == null || t1.Status == status)
+                    .OrderByDescending(x => x.InvoiceDate)
+                    .Skip((page -1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
         }
 
         // GET: api/JLokaInvoices/5
@@ -54,7 +64,7 @@ namespace JLokaTestEFCore.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                var t1 = await InvoiceExists(id);
+                var t1 = InvoiceExists(id);
 
                 if (!t1)
                 {
@@ -73,6 +83,7 @@ namespace JLokaTestEFCore.Controllers
         [HttpPost]
         public async Task<ActionResult<Invoice>> PostInvoice(Invoice invoice)
         {
+            var t1 = await _context.Invoices.FindAsync(invoice.Id);
             _context.Invoices.Add(invoice);
             await _context.SaveChangesAsync();
 
@@ -95,16 +106,9 @@ namespace JLokaTestEFCore.Controllers
             return NoContent();
         }
 
-        private async Task<bool> InvoiceExists(Guid id)
+        private bool InvoiceExists(Guid id)
         {
-            var invoice = await _context.Invoices.FindAsync(id);
-
-            if(invoice == null)
-            {
-                return false;
-            }
-
-            return true;
+            return (_context.Invoices?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
