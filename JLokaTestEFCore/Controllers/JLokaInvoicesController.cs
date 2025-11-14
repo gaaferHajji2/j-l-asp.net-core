@@ -83,6 +83,18 @@ namespace JLokaTestEFCore.Controllers
         [HttpPost]
         public async Task<ActionResult<Invoice>> PostInvoice(Invoice invoice)
         {
+            if(_context.Invoices == null)
+            {
+                return Problem("Invoices in null");
+            }
+
+            var t1 = await _context.Invoices.FindAsync(invoice.Id);
+
+            if(t1 != null)
+            {
+                return Problem("Id is duplicated", statusCode: 400);
+            }
+
             _context.Invoices.Add(invoice);
             await _context.SaveChangesAsync();
 
