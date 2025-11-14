@@ -83,7 +83,6 @@ namespace JLokaTestEFCore.Controllers
         [HttpPost]
         public async Task<ActionResult<Invoice>> PostInvoice(Invoice invoice)
         {
-            var t1 = await _context.Invoices.FindAsync(invoice.Id);
             _context.Invoices.Add(invoice);
             await _context.SaveChangesAsync();
 
