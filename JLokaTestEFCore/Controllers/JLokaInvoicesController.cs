@@ -56,6 +56,7 @@ namespace JLokaTestEFCore.Controllers
                 return BadRequest();
             }
 
+            // the EntityState.Modified Contains the object that contains the data
             _context.Entry(invoice).State = EntityState.Modified;
 
             try
