@@ -33,7 +33,7 @@ namespace JLokaTestEFCore.Controllers
                     .ToListAsync();
         }
 
-        // GET: api/JLokaInvoices/5
+        // GET: api/JLokaInvoices/:id
         [HttpGet("{id}")]
         public async Task<ActionResult<Invoice>> GetInvoice(Guid id)
         {
