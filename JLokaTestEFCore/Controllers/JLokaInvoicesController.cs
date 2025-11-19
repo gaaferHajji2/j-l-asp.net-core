@@ -47,7 +47,7 @@ namespace JLokaTestEFCore.Controllers
             return invoice;
         }
 
-        // PUT: api/JLokaInvoices/5
+        // PUT: api/JLokaInvoices/:id
         [HttpPut("{id}")]
         public async Task<IActionResult> PutInvoice(Guid id, Invoice invoice)
         {
@@ -85,7 +85,7 @@ namespace JLokaTestEFCore.Controllers
         {
             if(_context.Invoices == null)
             {
-                return Problem("Invoices in null");
+                return Problem("Invoices is null");
             }
 
             var t1 = await _context.Invoices.FindAsync(invoice.Id);
@@ -101,7 +101,7 @@ namespace JLokaTestEFCore.Controllers
             return CreatedAtAction("GetInvoice", new { id = invoice.Id }, invoice);
         }
 
-        // DELETE: api/JLokaInvoices/5
+        // DELETE: api/JLokaInvoices/:id
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteInvoice(Guid id)
         {
