@@ -26,7 +26,7 @@ namespace JLokaTestEFCore.Controllers
             return await _context
                     .Invoices
                     .AsQueryable()
-                    .Where(t1 => t1.Status == null || t1.Status == status)
+                    .Where(t1 => t1.Status == status)
                     .OrderByDescending(x => x.InvoiceDate)
                     .Skip((page -1) * pageSize)
                     .Take(pageSize)
