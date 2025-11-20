@@ -51,31 +51,21 @@ namespace JLokaTestEFCore.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutInvoice(Guid id, Invoice invoice)
         {
+
+            var t1 = await _context.Invoices.FindAsync(id);
+
+            if (t1 == null)
+            {
+                return NotFound();
+            }
+
             if (id != invoice.Id)
             {
                 return BadRequest();
             }
 
-            // the EntityState.Modified Contains the object that contains the data
-            _context.Entry(invoice).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                var t1 = InvoiceExists(id);
-
-                if (!t1)
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            t1.Status = invoice.Status;
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
