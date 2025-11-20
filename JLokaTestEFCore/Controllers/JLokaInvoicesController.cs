@@ -96,21 +96,18 @@ namespace JLokaTestEFCore.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteInvoice(Guid id)
         {
-            var invoice = await _context.Invoices.FindAsync(id);
-            if (invoice == null)
+
+            if(_context.Invoices == null)
             {
                 return NotFound();
             }
+
+            var invoice = new Invoice { Id = id };
 
             _context.Invoices.Remove(invoice);
             await _context.SaveChangesAsync();
 
             return NoContent();
-        }
-
-        private bool InvoiceExists(Guid id)
-        {
-            return (_context.Invoices?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
