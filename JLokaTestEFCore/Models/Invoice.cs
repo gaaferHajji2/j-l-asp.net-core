@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JLokaTestEFCore.Models
 {
-    [Table("Invoices")]
+    // [Table("Invoices")]
     public class Invoice
     {
         //[Column("Id")]
@@ -31,5 +31,7 @@ namespace JLokaTestEFCore.Models
         public DateTimeOffset DueDate { get; set; }
         //[Column(name: "Status", TypeName = "varchar(16)")]
         public InvoiceStatus Status { get; set; }
+
+        public List<InvoiceItem> InvoiceItems { get; set; } = new List<InvoiceItem>();
     }
 }

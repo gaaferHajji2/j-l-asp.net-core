@@ -4,6 +4,7 @@ using JLokaTestEFCore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JLokaTestEFCore.Migrations
 {
     [DbContext(typeof(InvoiceDbContext))]
-    partial class InvoiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251126093545_AddInvoiceItem")]
+    partial class AddInvoiceItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,44 +89,35 @@ namespace JLokaTestEFCore.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("Id");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
                         .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)")
-                        .HasColumnName("Amount");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)")
-                        .HasColumnName("Description");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("InvoiceId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("InvoiceId");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)")
-                        .HasColumnName("Name");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Quantity")
                         .HasPrecision(8, 2)
-                        .HasColumnType("decimal(8,2)")
-                        .HasColumnName("Quantity");
+                        .HasColumnType("decimal(8,2)");
 
                     b.Property<decimal>("UnitPrice")
                         .HasPrecision(8, 2)
-                        .HasColumnType("decimal(8,2)")
-                        .HasColumnName("UnitPrice");
+                        .HasColumnType("decimal(8,2)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("InvoiceId");
 
-                    b.ToTable("InvoiceItems", (string)null);
+                    b.ToTable("InvoiceItems");
                 });
 
             modelBuilder.Entity("JLokaTestEFCore.Models.InvoiceItem", b =>
