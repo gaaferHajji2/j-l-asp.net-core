@@ -1,7 +1,4 @@
 ﻿using JLokaTestEFCore.enums;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JLokaTestEFCore.Models
 {
@@ -31,7 +28,7 @@ namespace JLokaTestEFCore.Models
         public DateTimeOffset DueDate { get; set; }
         //[Column(name: "Status", TypeName = "varchar(16)")]
         public InvoiceStatus Status { get; set; }
-
+        //[JsonIgnore]
         public List<InvoiceItem> InvoiceItems { get; set; } = new List<InvoiceItem>();
     }
 }
