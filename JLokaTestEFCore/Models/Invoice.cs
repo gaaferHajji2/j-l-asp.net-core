@@ -1,4 +1,5 @@
 ﻿using JLokaTestEFCore.enums;
+using System.Text.Json.Serialization;
 
 namespace JLokaTestEFCore.Models
 {
@@ -7,6 +8,7 @@ namespace JLokaTestEFCore.Models
     {
         //[Column("Id")]
         //[Key]
+        [JsonIgnore]
         public Guid Id { get; set; }
         //[Column(name: "InvoiceNumber", TypeName ="varchar(32)")]
         //[Required]
