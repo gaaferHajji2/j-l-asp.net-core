@@ -8,7 +8,6 @@ namespace JLokaTestEFCore.Models
     {
         //[Column("Id")]
         //[Key]
-        [JsonIgnore]
         public Guid Id { get; set; }
         //[Column(name: "InvoiceNumber", TypeName ="varchar(32)")]
         //[Required]
