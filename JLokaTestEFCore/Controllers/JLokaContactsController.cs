@@ -20,7 +20,11 @@ namespace JLokaTestEFCore.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Contact>>> GetContacts()
         {
-            return await _context.Contacts.ToListAsync();
+            if (_context.Contacts == null)
+            {
+                return NotFound();
+            }
+            return await _context.Contacts.Include(x => x.Address).ToListAsync();
         }
 
         // GET: api/JLokaContacts/5
