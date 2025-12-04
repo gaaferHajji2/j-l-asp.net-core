@@ -10,6 +10,8 @@ namespace JLokaTestEFCore.Data
         public DbSet<InvoiceItem> InvoiceItems => Set<InvoiceItem>();
         public DbSet<Contact> Contacts => Set<Contact>();
         public DbSet<Address> Addresses => Set<Address>();
+        public DbSet<Actor> Actors => Set<Actor>();
+        public DbSet<Movie> Movies => Set<Movie>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,6 +31,7 @@ namespace JLokaTestEFCore.Data
             modelBuilder.ConfigureInvoiceItem();
             modelBuilder.ConfigureContact();
             modelBuilder.ConfigureAddress();
+            modelBuilder.ConfigureMovie();
         }
     }
 }
