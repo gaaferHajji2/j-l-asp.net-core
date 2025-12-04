@@ -32,6 +32,7 @@ namespace JLokaTestEFCore.Data
             modelBuilder.ConfigureContact();
             modelBuilder.ConfigureAddress();
             modelBuilder.ConfigureMovie();
+            modelBuilder.ConfigureActor();
         }
     }
 }
