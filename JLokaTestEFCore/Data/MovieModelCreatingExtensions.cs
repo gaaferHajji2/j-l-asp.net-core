@@ -26,6 +26,7 @@ namespace JLokaTestEFCore.Data
                         j.HasKey(ma => new { ma.MovieId, ma.ActorId});
                     }
                 );
+                b.HasIndex(p => p.Title).IsUnique();
             });
 
         }

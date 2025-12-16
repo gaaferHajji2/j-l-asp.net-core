@@ -1,4 +1,6 @@
-﻿namespace JLokaTestEFCore.Models
+﻿using System.Text.Json.Serialization;
+
+namespace JLokaTestEFCore.Models
 {
     public class Movie
     {
