@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace JLokaTestEFCore.Models
+﻿namespace JLokaTestEFCore.Models
 {
     public class Movie
     {
