@@ -105,6 +105,35 @@ namespace JLokaTestEFCore.Controllers
             return _context.Actors.Any(e => e.Id == id);
         }
 
+        [HttpPost("{id}/movies/{movieId}")]
+        public async Task<IActionResult> AddMovie(Guid id, Guid movieId)
+        {
+            if(_context.Actors == null)
+            {
+                return NotFound("Actors is null");
+            }
 
+            var actor = await _context.Actors.Include(x => x.Movies).SingleOrDefaultAsync(x => x.Id == id);
+
+            if(actor == null)
+            {
+                return NotFound($"Actor with id: {id} not found");
+            }
+
+            var movie = await _context.Movies.FindAsync(movieId);
+            if(movie == null)
+            {
+                return NotFound($"Movie with id: {id} not found");
+            }
+
+            if(actor.Movies.Any(x => x.Id == movieId))
+            {
+                return Problem($"Movie with id: {movieId} already exists for actor with id: {id}");
+            }
+
+            actor.Movies.Add(movie);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction("GetActor", new { Id = actor.Id }, actor);
+        }
     }
 }
