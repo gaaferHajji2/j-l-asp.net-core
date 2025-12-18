@@ -26,6 +26,11 @@ namespace JLokaTestEFCore.Data
                     v => (InvoiceStatus)Enum.Parse(typeof(InvoiceStatus), v)
                 );
                 // b.HasMany(x => x.InvoiceItems).WithOne(x => x.Invoice).HasForeignKey(x => x.InvoiceId);
+                //b.OwnsMany(p => p.InvoiceItems, a =>
+                //{
+                //    a.WithOwner(x => x.Invoice).HasForeignKey(x => x.InvoiceId);
+                //    a.ToTable("InvoiceItems");
+                //});
             });
         }
     }
