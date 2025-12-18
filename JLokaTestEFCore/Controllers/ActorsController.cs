@@ -1,12 +1,13 @@
+using JLokaTestEFCore.Data;
+using JLokaTestEFCore.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using JLokaTestEFCore.Data;
-using JLokaTestEFCore.Models;
 
 namespace JLokaTestEFCore.Controllers
 {
@@ -131,9 +132,56 @@ namespace JLokaTestEFCore.Controllers
                 return Problem($"Movie with id: {movieId} already exists for actor with id: {id}");
             }
 
+            // here we should check for existing of movies for actor before adding
             actor.Movies.Add(movie);
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetActor", new { Id = actor.Id }, actor);
+        }
+
+       [HttpGet("{id}/movies")]
+       public async Task<IActionResult> GetMovies(Guid id)
+       {
+            if(_context.Actors == null)
+            {
+                return NotFound("Actors is null");
+            }
+
+            var actor = await _context.Actors.Include(x => x.Movies).SingleOrDefaultAsync(x => x.Id == id);
+
+            if(actor == null)
+            {
+                return NotFound($"No actor with id: {id}");
+            }
+            // here we must make the response with dto
+            return Ok(actor.Movies);
+       }
+
+        [HttpDelete("{id}/movies/{movieId}")]
+        public async Task<IActionResult> DeleteMovie(Guid id, Guid movieId)
+        {
+            if(_context.Actors == null)
+            {
+                return NotFound("Actors is null");
+            }
+
+            var actor = await _context.Actors.Include(x => x.Movies).SingleOrDefaultAsync(x => x.Id == id);
+
+            if(actor == null)
+            {
+                return NotFound($"No Actor with Id: {id}");
+            }
+
+            var movie = await _context.Movies.FindAsync(movieId);
+            if(movie == null)
+            {
+                return NotFound($"No movie with id: {movieId}");
+            }
+            //  Note that it does not delete the movie from the database; it just deletes
+            //  the relationship between the movie and the actor.
+            actor.Movies.Remove(movie);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }
