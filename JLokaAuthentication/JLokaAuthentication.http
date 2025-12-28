@@ -1,0 +1,6 @@
+@JLokaAuthentication_HostAddress = http://localhost:5129
+
+GET {{JLokaAuthentication_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
