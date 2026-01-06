@@ -85,7 +85,23 @@ namespace JLokaAuthentication.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-
+            // Get the secret in the configuration
+            // Check if the model is valid
+            if(ModelState.IsValid)
+            {
+                var user = await userManager.FindByNameAsync(model.Username);
+                if(user != null)
+                {
+                    if (await userManager.CheckPasswordAsync(user, model.password))
+                    {
+                        var token = GenerateToken(model.Username);
+                        return Ok(new { token });
+                    }
+                }
+                // If the user is not found, display an error message
+                ModelState.AddModelError("", "Invalid username or password");
+            }
+            return BadRequest(ModelState);
         }
     }
 }
