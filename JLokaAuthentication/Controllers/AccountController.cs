@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace JLokaAuthentication.Controllers
 {
@@ -42,7 +43,7 @@ namespace JLokaAuthentication.Controllers
                 // if the result is success return the result
                 if (userResult.Succeeded)
                 {
-                    var token = GenerateToken(model.UserName);
+                    var token = GenerateToken(model.UserName, user);
                     return Ok(new { token });
                 }
 
@@ -55,7 +56,7 @@ namespace JLokaAuthentication.Controllers
             return BadRequest(ModelState);
         }
 
-        private string? GenerateToken(string userName)
+        private async Task<string?> GenerateToken(string userName, AppUser user)
         {
             var secret = _configuration["JwtConfig:Secret"];
             var issuer = _configuration["JwtConfig:ValidIssuer"];
@@ -67,6 +68,13 @@ namespace JLokaAuthentication.Controllers
             }
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
             var tokenHandler = new JwtSecurityTokenHandler();
+            var userRoles = await userManager.GetRolesAsync(user);
+            var claims = new List<Claim>
+            {
+                new(ClaimTypes.Name, userName)
+            };
+            claims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role)));
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new System.Security.Claims.ClaimsIdentity(new[]
@@ -95,7 +103,7 @@ namespace JLokaAuthentication.Controllers
                 {
                     if (await userManager.CheckPasswordAsync(user, model.password))
                     {
-                        var token = GenerateToken(model.Username);
+                        var token = GenerateToken(model.Username, user);
                         return Ok(new { token });
                     }
                 }
