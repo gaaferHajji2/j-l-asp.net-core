@@ -7,7 +7,7 @@ using System.Text;
 
 internal class Program
 {
-    private static void Main(string[] args)
+    private static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +19,9 @@ internal class Program
         builder.Services.AddDbContext<AppDbContext>();
         // Add the identity model and attach to db context
         builder.Services.AddIdentityCore<AppUser>()
+            //  If you use the AddIdentity() method, you do not need to call the AddRoles() method. 
+            // The AddIdentity() method will call the AddRoles() method internally.
+            .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
         //Add authentication with options
@@ -91,6 +94,33 @@ internal class Program
 
         app.UseAuthentication();
         app.UseAuthorization();
+
+        // Check if the roles exist, if not, create them
+        using (var serviceScope = app.Services.CreateScope())
+        {
+            var services = serviceScope.ServiceProvider;
+
+            // Ensure the database is created.
+            var dbContext = services.GetRequiredService<AppDbContext>();
+            //dbContext.Database.EnsureDeleted();
+            dbContext.Database.EnsureCreated();
+
+            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+            if (!await roleManager.RoleExistsAsync(AppRoles.User))
+            {
+                await roleManager.CreateAsync(new IdentityRole(AppRoles.User));
+            }
+
+            if (!await roleManager.RoleExistsAsync(AppRoles.VipUser))
+            {
+                await roleManager.CreateAsync(new IdentityRole(AppRoles.VipUser));
+            }
+
+            if (!await roleManager.RoleExistsAsync(AppRoles.Administrator))
+            {
+                await roleManager.CreateAsync(new IdentityRole(AppRoles.Administrator));
+            }
+        }
 
         app.MapControllers();
 
