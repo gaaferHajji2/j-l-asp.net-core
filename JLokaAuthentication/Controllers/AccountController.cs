@@ -77,10 +77,7 @@ namespace JLokaAuthentication.Controllers
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new System.Security.Claims.ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.Name, userName),
-                }),
+                Subject = new System.Security.Claims.ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddDays(1),
                 Issuer = issuer,
                 Audience = audience,

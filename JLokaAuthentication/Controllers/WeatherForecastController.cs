@@ -1,9 +1,11 @@
+using JLokaAuthentication.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JLokaAuthentication.Controllers
 {
-    [Authorize]
+    //[Authorize(Roles = AppRoles.Administrator)]
+    [Authorize(Roles = $"{AppRoles.Administrator},{AppRoles.User}")]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
@@ -20,7 +22,7 @@ namespace JLokaAuthentication.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
+        [HttpGet("user", Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
