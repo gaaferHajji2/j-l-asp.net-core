@@ -33,5 +33,47 @@ namespace JLokaAuthentication.Controllers
             })
             .ToArray();
         }
+
+        // In This way it must contains all roles
+        // to access this api
+        [HttpGet("Vip", Name = "GetWeatherForecastVip")]
+        [Authorize(Roles = AppRoles.User)]
+        [Authorize(Roles = AppRoles.VipUser)]
+        public IEnumerable<WeatherForecast> GetVip()
+        {
+            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+                TemperatureC = Random.Shared.Next(-20, 55),
+                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+            })
+            .ToArray();
+        }
+
+        [HttpGet("user-with-policy", Name = "GetWeatherForecastByPolicy")]
+        [Authorize(Policy = "RequireUserRole")]
+        public IEnumerable<WeatherForecast> GetByPolicy()
+        {
+            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+                TemperatureC = Random.Shared.Next(-20, 55),
+                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+            })
+            .ToArray();
+        }
+
+        [HttpGet("admin-with-policy", Name = "GetWeatherForecastByAdminPolicy")]
+        [Authorize(Policy = "RequireAdministratorRole")]
+        public IEnumerable<WeatherForecast> GetByAdminPolicy()
+        {
+            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+                TemperatureC = Random.Shared.Next(-20, 55),
+                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+            })
+            .ToArray();
+        }
     }
 }

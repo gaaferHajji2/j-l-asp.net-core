@@ -5,68 +5,64 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 
-internal class Program
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+builder.Services.AddControllers();
+
+// Add the db context
+builder.Services.AddDbContext<AppDbContext>();
+// Add the identity model and attach to db context
+builder.Services.AddIdentityCore<AppUser>()
+    //  If you use the AddIdentity() method, you do not need to call the AddRoles() method. 
+    // The AddIdentity() method will call the AddRoles() method internally.
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+//Add authentication with options
+builder.Services.AddAuthentication(options =>
 {
-    private static async Task Main(string[] args)
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    var secret = builder.Configuration["JwtConfig:secret"];
+    var issuer = builder.Configuration["JwtConfig:ValidIssuer"];
+    var audience = builder.Configuration["JwtConfig:ValidAudiences"];
+
+    if (secret is null || issuer is null || audience is null)
     {
-        var builder = WebApplication.CreateBuilder(args);
+        throw new ApplicationException("Jwt is not set in the configuration");
+    }
 
-        // Add services to the container.
+    options.SaveToken = true;
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidAudience = audience,
+        ValidIssuer = issuer,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret)),
+    };
+});
 
-        builder.Services.AddControllers();
-
-        // Add the db context
-        builder.Services.AddDbContext<AppDbContext>();
-        // Add the identity model and attach to db context
-        builder.Services.AddIdentityCore<AppUser>()
-            //  If you use the AddIdentity() method, you do not need to call the AddRoles() method. 
-            // The AddIdentity() method will call the AddRoles() method internally.
-            .AddRoles<IdentityRole>()
-            .AddEntityFrameworkStores<AppDbContext>()
-            .AddDefaultTokenProviders();
-        //Add authentication with options
-        builder.Services.AddAuthentication(options =>
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).AddJwtBearer(options =>
-        {
-            var secret = builder.Configuration["JwtConfig:secret"];
-            var issuer = builder.Configuration["JwtConfig:ValidIssuer"];
-            var audience = builder.Configuration["JwtConfig:ValidAudiences"];
-
-            if (secret is null || issuer is null || audience is null)
-            {
-                throw new ApplicationException("Jwt is not set in the configuration");
-            }
-
-            options.SaveToken = true;
-            options.RequireHttpsMetadata = false;
-            options.TokenValidationParameters = new TokenValidationParameters()
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidAudience = audience,
-                ValidIssuer = issuer,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret)),
-            };
-        });
-
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen(c =>
-        {
-            c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-            {
-                Description = "JWT Authorization header using the Bearer scheme.Example: \"Authorization: Bearer {token}\"",
-                Name = "Authorization",
-                In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-                Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
-                Scheme = "Bearer"
-            });
-            c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement()
-            {
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme.Example: \"Authorization: Bearer {token}\"",
+        Name = "Authorization",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement()
+    {
                 {
                     new OpenApiSecurityScheme
                     {
@@ -78,52 +74,58 @@ internal class Program
                     },
                     new String[] {}
                 }
-            });
-        });
+    });
+});
 
-        var app = builder.Build();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole(AppRoles.Administrator));
+    options.AddPolicy("RequireVipUserRole", policy => policy.RequireRole(AppRoles.VipUser));
+    options.AddPolicy("RequireUserRole", policy => policy.RequireRole(AppRoles.User));
+    options.AddPolicy("RequireUserRoleOrVipUserRole", policy => policy.RequireRole(AppRoles.User, AppRoles.VipUser));
+});
 
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
+var app = builder.Build();
 
-        app.UseHttpsRedirection();
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
-        app.UseAuthentication();
-        app.UseAuthorization();
+app.UseHttpsRedirection();
 
-        // Check if the roles exist, if not, create them
-        using (var serviceScope = app.Services.CreateScope())
-        {
-            var services = serviceScope.ServiceProvider;
+app.UseAuthentication();
+app.UseAuthorization();
 
-            // Ensure the database is created.
-            var dbContext = services.GetRequiredService<AppDbContext>();
-            //dbContext.Database.EnsureDeleted();
-            dbContext.Database.EnsureCreated();
+// Check if the roles exist, if not, create them
+using (var serviceScope = app.Services.CreateScope())
+{
+    var services = serviceScope.ServiceProvider;
 
-            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-            if (!await roleManager.RoleExistsAsync(AppRoles.User))
-            {
-                await roleManager.CreateAsync(new IdentityRole(AppRoles.User));
-            }
+    // Ensure the database is created.
+    var dbContext = services.GetRequiredService<AppDbContext>();
+    //dbContext.Database.EnsureDeleted();
+    dbContext.Database.EnsureCreated();
 
-            if (!await roleManager.RoleExistsAsync(AppRoles.VipUser))
-            {
-                await roleManager.CreateAsync(new IdentityRole(AppRoles.VipUser));
-            }
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    if (!await roleManager.RoleExistsAsync(AppRoles.User))
+    {
+        await roleManager.CreateAsync(new IdentityRole(AppRoles.User));
+    }
 
-            if (!await roleManager.RoleExistsAsync(AppRoles.Administrator))
-            {
-                await roleManager.CreateAsync(new IdentityRole(AppRoles.Administrator));
-            }
-        }
+    if (!await roleManager.RoleExistsAsync(AppRoles.VipUser))
+    {
+        await roleManager.CreateAsync(new IdentityRole(AppRoles.VipUser));
+    }
 
-        app.MapControllers();
-
-        app.Run();
+    if (!await roleManager.RoleExistsAsync(AppRoles.Administrator))
+    {
+        await roleManager.CreateAsync(new IdentityRole(AppRoles.Administrator));
     }
 }
+
+app.MapControllers();
+
+app.Run();
