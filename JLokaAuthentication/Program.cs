@@ -8,7 +8,6 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 
 // Add the db context
@@ -86,16 +85,13 @@ builder.Services.AddAuthorization(options =>
 });
 
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -103,7 +99,6 @@ app.UseAuthorization();
 using (var serviceScope = app.Services.CreateScope())
 {
     var services = serviceScope.ServiceProvider;
-
     // Ensure the database is created.
     var dbContext = services.GetRequiredService<AppDbContext>();
     //dbContext.Database.EnsureDeleted();
@@ -127,5 +122,4 @@ using (var serviceScope = app.Services.CreateScope())
 }
 
 app.MapControllers();
-
 app.Run();

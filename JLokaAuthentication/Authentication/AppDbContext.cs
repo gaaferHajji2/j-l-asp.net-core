@@ -8,6 +8,7 @@ namespace JLokaAuthentication.Authentication
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
+            //Console.WriteLine(configuration.GetConnectionString("DefaultConnection"));
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
         }
     }
