@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -82,6 +83,9 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("RequireVipUserRole", policy => policy.RequireRole(AppRoles.VipUser));
     options.AddPolicy("RequireUserRole", policy => policy.RequireRole(AppRoles.User));
     options.AddPolicy("RequireUserRoleOrVipUserRole", policy => policy.RequireRole(AppRoles.User, AppRoles.VipUser));
+    options.AddPolicy(AppAuthorizationPolicies.RequireAccessNumber, policy => policy.RequireClaim(AppClaimTypes.AccessNumber));
+    options.AddPolicy(AppAuthorizationPolicies.RequireDrivingLicenseNumber, policy => policy.RequireClaim(AppClaimTypes.DrivingLicenseNumber));
+    options.AddPolicy(AppAuthorizationPolicies.RequireCountry, policy => policy.RequireClaim(ClaimTypes.Country, "Russia"));
 });
 
 var app = builder.Build();

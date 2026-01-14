@@ -75,5 +75,13 @@ namespace JLokaAuthentication.Controllers
             })
             .ToArray();
         }
+
+        [Authorize(Policy = AppAuthorizationPolicies.RequireDrivingLicenseNumber)]
+        [HttpGet("driving-license")]
+        public IActionResult GetDrivingLicenseNumber() 
+        {
+            var drivingLicenseNumber = User.Claims.FirstOrDefault(c => c.Type == AppClaimTypes.DrivingLicenseNumber)?.Value;
+            return Ok(new { drivingLicenseNumber });
+        }
     }
 }

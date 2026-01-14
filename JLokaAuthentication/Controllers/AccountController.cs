@@ -70,7 +70,10 @@ namespace JLokaAuthentication.Controllers
             var userRoles = await userManager.GetRolesAsync(user);
             var claims = new List<Claim>
             {
-                new(ClaimTypes.Name, userName)
+                new(ClaimTypes.Name, userName),
+                new(ClaimTypes.Country, "Russia"),
+                new(AppClaimTypes.AccessNumber, "1234567890"),
+                new(AppClaimTypes.DrivingLicenseNumber, "1234567890"),
             };
             claims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role)));
 
