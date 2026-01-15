@@ -99,5 +99,12 @@ namespace JLokaAuthentication.Controllers
         {
             return NoContent();
         }
+
+        [Authorize(Policy = AppAuthorizationPolicies.SpecialPremiumContent)]
+        [HttpGet("get-premium")]
+        public IActionResult GetPremium()
+        {
+            return NoContent();
+        }
     }
 }

@@ -1,5 +1,6 @@
 using JLokaAuthentication.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -94,7 +95,14 @@ builder.Services.AddAuthorization(options =>
 
         return hasDrivingLicense && hasAccessNumber;
     }));
+    // Adding custom policy implementation
+    options.AddPolicy(AppAuthorizationPolicies.SpecialPremiumContent, policy =>
+    {
+        policy.Requirements.Add(new SpecialPremiumContentRequirement("Russia"));
+    });
 });
+
+builder.Services.AddSingleton<IAuthorizationHandler, SpecialPremiumContentAuthorizationHandler>();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

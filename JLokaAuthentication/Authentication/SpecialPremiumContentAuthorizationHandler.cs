@@ -7,6 +7,7 @@ namespace JLokaAuthentication.Authentication
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, SpecialPremiumContentRequirement requirement)
         {
+            Console.WriteLine("Executed...");
             var hasPremiumAccess = context.User.HasClaim(c => c.Type == AppClaimTypes.Subscription && c.Value == "Premium");
             if(!hasPremiumAccess)
             {
