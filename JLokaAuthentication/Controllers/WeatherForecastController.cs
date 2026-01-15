@@ -1,6 +1,7 @@
 using JLokaAuthentication.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace JLokaAuthentication.Controllers
 {
@@ -82,6 +83,21 @@ namespace JLokaAuthentication.Controllers
         {
             var drivingLicenseNumber = User.Claims.FirstOrDefault(c => c.Type == AppClaimTypes.DrivingLicenseNumber)?.Value;
             return Ok(new { drivingLicenseNumber });
+        }
+
+        [Authorize(Policy = AppAuthorizationPolicies.RequireCountry)]
+        [HttpGet("country")]
+        public IActionResult GetCountry()
+        {
+            var country = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Country)?.Value;
+            return Ok(new { country }); 
+        }
+
+        [Authorize(Policy = AppAuthorizationPolicies.RequireDrivingLicenseAndAccessNumber)]
+        [HttpGet("driving-license-and-access-number")]
+        public IActionResult GetNoContent()
+        {
+            return NoContent();
         }
     }
 }

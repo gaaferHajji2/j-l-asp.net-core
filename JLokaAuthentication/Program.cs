@@ -85,7 +85,15 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("RequireUserRoleOrVipUserRole", policy => policy.RequireRole(AppRoles.User, AppRoles.VipUser));
     options.AddPolicy(AppAuthorizationPolicies.RequireAccessNumber, policy => policy.RequireClaim(AppClaimTypes.AccessNumber));
     options.AddPolicy(AppAuthorizationPolicies.RequireDrivingLicenseNumber, policy => policy.RequireClaim(AppClaimTypes.DrivingLicenseNumber));
-    options.AddPolicy(AppAuthorizationPolicies.RequireCountry, policy => policy.RequireClaim(ClaimTypes.Country, "Russia"));
+    // Here we can set multiple values not Russia
+    options.AddPolicy(AppAuthorizationPolicies.RequireCountry, policy => policy.RequireClaim(ClaimTypes.Country, "Russia", "Syria"));
+    options.AddPolicy(AppAuthorizationPolicies.RequireDrivingLicenseAndAccessNumber, policy => policy.RequireAssertion(context =>
+    {
+        var hasDrivingLicense = context.User.HasClaim(c => c.Type == AppClaimTypes.DrivingLicenseNumber);
+        var hasAccessNumber = context.User.HasClaim(c => c.Type == AppClaimTypes.AccessNumber);
+
+        return hasDrivingLicense && hasAccessNumber;
+    }));
 });
 
 var app = builder.Build();
