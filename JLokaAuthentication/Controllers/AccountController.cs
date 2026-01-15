@@ -74,6 +74,7 @@ namespace JLokaAuthentication.Controllers
                 new(ClaimTypes.Country, "Russia"),
                 new(AppClaimTypes.AccessNumber, "1234567890"),
                 new(AppClaimTypes.DrivingLicenseNumber, "1234567890"),
+                new(AppClaimTypes.Subscription, "Premium"),
             };
             claims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role)));
 
