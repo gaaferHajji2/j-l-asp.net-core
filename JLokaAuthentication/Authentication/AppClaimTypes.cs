@@ -4,5 +4,6 @@
     {
         public const string DrivingLicenseNumber = "DrivingLicenseNumber";
         public const string AccessNumber = "AccessNumber";
+        public const string Subscription = "Subscription";
     }
 }
