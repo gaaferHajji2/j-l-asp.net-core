@@ -36,12 +36,11 @@ namespace JLokaAuthentication.Controllers
                 // try to save the user with password
                 var userResult = await userManager.CreateAsync(user, model.Password);
 
-                // Adding the user to "User" Role
-                var roleResult = await userManager.AddToRoleAsync(user, AppRoles.User);
-
                 // if the result is success return the result
                 if (userResult.Succeeded)
                 {
+                    // Adding the user to "User" Role
+                    var roleResult = await userManager.AddToRoleAsync(user, AppRoles.User);
                     var token = GenerateToken(model.UserName, user);
                     return Ok(new { token });
                 }
