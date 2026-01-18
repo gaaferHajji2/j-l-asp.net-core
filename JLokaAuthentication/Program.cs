@@ -16,7 +16,7 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>();
 // Add the identity model and attach to db context
 builder.Services.AddIdentityCore<AppUser>()
-    // this is not addded by default
+    // this is not added by default
     .AddSignInManager() //
     //  If you use the AddIdentity() method, you do not need to call the AddRoles() method. 
     // The AddIdentity() method will call the AddRoles() method internally.
