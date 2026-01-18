@@ -16,6 +16,8 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>();
 // Add the identity model and attach to db context
 builder.Services.AddIdentityCore<AppUser>()
+    // this is not addded by default
+    .AddSignInManager() //
     //  If you use the AddIdentity() method, you do not need to call the AddRoles() method. 
     // The AddIdentity() method will call the AddRoles() method internally.
     .AddRoles<IdentityRole>()
@@ -103,6 +105,24 @@ builder.Services.AddAuthorization(options =>
 });
 
 builder.Services.AddSingleton<IAuthorizationHandler, SpecialPremiumContentAuthorizationHandler>();
+
+builder.Services.Configure<IdentityOptions>(options => {
+    // Password settings
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 8;
+    options.Password.RequiredUniqueChars = 1;
+    // User settings
+    options.User.AllowedUserNameCharacters =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+    options.User.RequireUniqueEmail = true;
+    // Lockout settings
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    options.Lockout.MaxFailedAccessAttempts = 3;
+    options.Lockout.AllowedForNewUsers = true;
+});
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

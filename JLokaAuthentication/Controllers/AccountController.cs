@@ -10,7 +10,7 @@ namespace JLokaAuthentication.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class AccountController(UserManager<AppUser> userManager, IConfiguration _configuration) : ControllerBase
+    public class AccountController(UserManager<AppUser> userManager, IConfiguration _configuration, SignInManager<AppUser> signInManager) : ControllerBase
     {
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] AddOrUpdateAppUserModel model)
@@ -101,7 +101,9 @@ namespace JLokaAuthentication.Controllers
                 var user = await userManager.FindByNameAsync(model.Username);
                 if(user != null)
                 {
-                    if (await userManager.CheckPasswordAsync(user, model.password))
+                    //if (await userManager.CheckPasswordAsync(user, model.password))
+                    var result = await signInManager.CheckPasswordSignInAsync(user, model.password, lockoutOnFailure: true);
+                    if (result.Succeeded)
                     {
                         var token = GenerateToken(model.Username, user);
                         return Ok(new { token });
