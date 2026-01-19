@@ -19,7 +19,7 @@ namespace JLoka.InvoiceApp.UnitTests
             var invoice = new Invoice
             {
                 Id = Guid.NewGuid(),
-                InvoiceNumber = "INV-01",
+                InvoiceNumber = "INV-001",
                 Amount = 500,
                 DueDate = dueDate,
                 Contact = new Contact
