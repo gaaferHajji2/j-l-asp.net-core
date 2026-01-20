@@ -8,5 +8,6 @@ namespace JLoka.InvoiceApp.UnitTests
         Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=true";
 
         public InvoiceDbContext CreateDbContext() => new(new DbContextOptionsBuilder<InvoiceDbContext>().UseSqlServer(ConnectionString).Options, null);
+
     }
 }

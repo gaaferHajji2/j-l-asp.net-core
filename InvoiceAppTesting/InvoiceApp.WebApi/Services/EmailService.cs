@@ -1,9 +1,16 @@
 ﻿using InvoiceApp.WebApi.Models;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace InvoiceApp.WebApi.Services;
 
 public class EmailService : IEmailService
 {
+    private readonly IEmailSender emailSender;
+    
+    public EmailService(IEmailSender emailSender)
+    {
+        this.emailSender = emailSender;
+    }
 
     public (string to, string subject, string body) GenerateInvoiceEmail(Invoice invoice)
     {
@@ -31,6 +38,7 @@ public class EmailService : IEmailService
     {
         // Mock the email sending process
         // In real world, you may use a third-party email service, such as SendGrid, MailChimp, Azure Logic Apps, etc.
+        this.emailSender.SendEmailAsync(to, subject, body);
         return Task.Delay(100);
     }
 }
