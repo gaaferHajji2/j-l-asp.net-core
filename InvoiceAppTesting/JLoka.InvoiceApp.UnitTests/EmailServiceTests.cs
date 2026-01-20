@@ -1,6 +1,8 @@
 ﻿using InvoiceApp.WebApi;
 using InvoiceApp.WebApi.Models;
 using InvoiceApp.WebApi.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Moq;
 
 namespace JLoka.InvoiceApp.UnitTests
 {
@@ -46,8 +48,9 @@ namespace JLoka.InvoiceApp.UnitTests
                     }
                 }
             };
-
-            var (to, subject, body) = new EmailService().GenerateInvoiceEmail(invoice);
+            var emailSenderMock = new Mock<IEmailSender>();
+            //object t1 = emailSenderMock.Setup(m => m.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.CompletedTask);
+            var (to, subject, body) = new EmailService(emailSenderMock.Object).GenerateInvoiceEmail(invoice);
             Assert.Equal(invoice.Contact.Email, to);
             Assert.Equal($"Invoice INV-001 for John Doe", subject);
             Assert.Equal($"""
@@ -66,6 +69,26 @@ namespace JLoka.InvoiceApp.UnitTests
             Regards,
             InvoiceApp
             """, body);
+        }
+
+        [Fact]
+        public async Task TestSendEmail_SouldSend()
+        {
+            // Arrange
+            var to = "user@example.com";
+            var subject = "Test Email";
+            var body = "Hello, this is a test email";
+
+            var emailSenderMock = new Mock<IEmailSender>();
+            object t1 = emailSenderMock.Setup(m => m.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.CompletedTask);
+            //var loggerMock = new Mock<ILogger<IEmailService>>();
+            //loggerMock.Setup(l => l.Log(It.IsAny<LogLevel>(), It.IsAny<EventId>(), It.IsAny<It.IsAnyType>(),
+            //    It.IsAny<Exception>(), (Func<It.IsAnyType, Exception?, string>)It.IsAny<object>())).Verifiable();
+            var emailService = new EmailService(emailSenderMock.Object);
+            // Act
+            await emailService.SendEmailAsync(to, subject, body);
+            // Assert
+            emailSenderMock.Verify(m => m.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         }
     }
 }
