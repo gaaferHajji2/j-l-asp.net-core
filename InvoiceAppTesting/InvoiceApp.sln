@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.1.11312.151 d18.0
+VisualStudioVersion = 18.1.11312.151
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoiceApp.WebApi", "InvoiceApp.WebApi\InvoiceApp.WebApi.csproj", "{D036EB4E-98FA-4413-90AA-937717927AFF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JLoka.InvoiceApp.UnitTests", "JLoka.InvoiceApp.UnitTests\JLoka.InvoiceApp.UnitTests.csproj", "{5D3F0675-6705-4AF0-BEEB-F70A888E3987}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JLokaGrpcServiceDemo", "JLokaGrpcServiceDemo\JLokaGrpcServiceDemo.csproj", "{8345C4AE-E9D4-4243-82F1-29947EA98836}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{5D3F0675-6705-4AF0-BEEB-F70A888E3987}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D3F0675-6705-4AF0-BEEB-F70A888E3987}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D3F0675-6705-4AF0-BEEB-F70A888E3987}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8345C4AE-E9D4-4243-82F1-29947EA98836}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8345C4AE-E9D4-4243-82F1-29947EA98836}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8345C4AE-E9D4-4243-82F1-29947EA98836}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8345C4AE-E9D4-4243-82F1-29947EA98836}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
