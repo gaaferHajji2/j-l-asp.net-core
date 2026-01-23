@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option csharp_namespace = "JLokaGrpcServiceDemo";
+
+message CreateAddressRequest {
+	string street = 1;
+	string city = 2;
+	string state = 3;
+	string zip_code = 4;
+	string country = 5;
+}
+
+message CreateContactAddress {
+	string first_name = 1;
+	string last_name = 2;
+	string email = 3;
+	string phone = 4;
+	int32 year_of_birth = 5;
+	bool is_active = 6;
+}
