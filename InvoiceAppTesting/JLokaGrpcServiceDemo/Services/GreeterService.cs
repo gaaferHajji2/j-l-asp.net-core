@@ -15,7 +15,7 @@ namespace JLokaGrpcServiceDemo.Services
         {
             return Task.FromResult(new HelloReply
             {
-                Message = "Hello " + request.Name
+                Message = "Hello " + request.Name +", Address is: " + request.Address 
             });
         }
     }
