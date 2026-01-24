@@ -15,6 +15,14 @@ message CreateContactRequest {
 	bool is_active =6;
 }
 
+message CreateContactResponse {
+	string contact_id = 1;
+}
+
+service ContactService {
+	rpc CreateContact(CreateContactRequest) returns (CreateContactResponse);
+}
+
 message UpdateInvoiceDueDateRequest {
 	string invoice_id = 1;
 	google.protobuf.Timestamp due_date = 2;
