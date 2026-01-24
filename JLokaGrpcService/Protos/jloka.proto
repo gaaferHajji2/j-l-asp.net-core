@@ -1,5 +1,9 @@
 syntax = "proto3";
 
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/wrappers.proto";
+
 option csharp_namespace = "JLokaGrpcService.Protos";
 
 message CreateAddressRequest {
@@ -9,4 +13,27 @@ message CreateAddressRequest {
 	string phone = 4;
 	int32 year_of_birth = 5;
 	bool is_active =6;
+}
+
+message UpdateInvoiceDueDateRequest {
+	string invoice_id = 1;
+	google.protobuf.Timestamp due_date = 2;
+	google.protobuf.Duration grace_period = 3;
+}
+
+enum InvoiceStatus {
+	INVOICE_STATUS_UNKNOWN = 0;
+	INVOICE_STATUS_DRAFT = 1;
+	INVOICE_STATUS_AWAIT_PAYMENT = 2;
+	INVOICE_STATUS_PAID = 3;
+	INVOICE_STATUS_OVERDUE = 4;
+	INVOICE_STATUS_CANCELLED = 5;
+}
+
+message AddInvoiceItemRequest {
+	string name = 1;
+	string description = 2;
+	google.protobuf.DoubleValue unit_price = 3;
+	google.protobuf.Int32Value quantity = 4;
+	google.protobuf.BoolValue is_taxable = 5;
 }
