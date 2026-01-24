@@ -3,5 +3,10 @@ syntax = "proto3";
 option csharp_namespace = "JLokaGrpcService.Protos";
 
 message CreateAddressRequest {
-	string address = 1;
+	string first_name = 1;
+	string last_name = 2;
+	string email = 3;
+	string phone = 4;
+	int32 year_of_birth = 5;
+	bool is_active =6;
 }
