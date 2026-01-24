@@ -42,3 +42,7 @@ message UpdateBatchInvoicesStatusRequest {
 	repeated string invoice_ids = 1;
 	InvoiceStatus status = 2;
 }
+
+message UpdateInvoicesStatusRequest {
+	map<string, InvoiceStatus> invoice_status_map = 1;
+}
