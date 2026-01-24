@@ -6,7 +6,7 @@ import "google/protobuf/wrappers.proto";
 
 option csharp_namespace = "JLokaGrpcService.Protos";
 
-message CreateAddressRequest {
+message CreateContactRequest {
 	string first_name = 1;
 	string last_name = 2;
 	string email = 3;
