@@ -37,3 +37,8 @@ message AddInvoiceItemRequest {
 	google.protobuf.Int32Value quantity = 4;
 	google.protobuf.BoolValue is_taxable = 5;
 }
+
+message UpdateBatchInvoicesStatusRequest {
+	repeated string invoice_ids = 1;
+	InvoiceStatus status = 2;
+}
