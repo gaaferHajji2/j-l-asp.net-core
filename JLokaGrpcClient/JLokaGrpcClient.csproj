@@ -20,4 +20,9 @@
     <ProjectReference Include="..\JLokaGrpcService\JLokaGrpcService.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Protobuf Include="Protos\greet.proto" GrpcServices="Client" />
+    <Protobuf Include="Protos\jloka.proto" GrpcServices="Client" />
+  </ItemGroup>
+
 </Project>
