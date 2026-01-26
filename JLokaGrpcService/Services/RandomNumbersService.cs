@@ -5,7 +5,7 @@ namespace JLokaGrpcService.Services
 {
     public class RandomNumbersService(ILogger<RandomNumbersService> _logger): RandomNumbers.RandomNumbersBase
     {
-        public override async Task GetRandomNumbers(GetRandomNumbersRequest request, IServerStreamWriter<GetRandomNumbersResponse> responseStream, 
+        public override async Task GetRandomNumbers(GetRandomNumbersRequest request, IServerStreamWriter<GetRandomNumbersResponse> responseStream,
             ServerCallContext context)
         {
             var random = new Random();

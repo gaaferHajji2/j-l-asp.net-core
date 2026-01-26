@@ -15,5 +15,5 @@ service RandomNumbers {
 }
 
 service RandomNumbers2 {
-	rpc GetRandomNumbers2(stream GetRandomNumbersRequest) returns (GetRandomNumbersResponse)
+	rpc GetRandomNumbers2(stream GetRandomNumbersRequest) returns (GetRandomNumbersResponse);
 }

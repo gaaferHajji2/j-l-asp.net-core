@@ -10,10 +10,7 @@ message GetRandomNumbersRequest {
 message GetRandomNumbersResponse {
 	int32 number = 1;
 }
+
 service RandomNumbers {
 	rpc GetRandomNumbers(GetRandomNumbersRequest) returns (stream GetRandomNumbersResponse);
-}
-
-service RandomNumbers2 {
-	rpc GetRandomNumbers2(stream GetRandomNumbersRequest) returns (GetRandomNumbersResponse)
 }
