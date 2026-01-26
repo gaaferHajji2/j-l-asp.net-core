@@ -13,3 +13,7 @@ message GetRandomNumbersResponse {
 service RandomNumbers {
 	rpc GetRandomNumbers(GetRandomNumbersRequest) returns (stream GetRandomNumbersResponse);
 }
+
+service RandomNumbers2 {
+	rpc GetRandomNumbers2(stream GetRandomNumbersRequest) returns (GetRandomNumbersResponse)
+}
