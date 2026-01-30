@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option csharp_namespace = "JLokaGrpcService.Protos";
+
+message ChatMessage {
+	string sender = 1;
+	string message = 2;
+}
+
+service Chat {
+	rpc SendMessage(stream ChatMessage) returns (stream ChatMessage);
+}
