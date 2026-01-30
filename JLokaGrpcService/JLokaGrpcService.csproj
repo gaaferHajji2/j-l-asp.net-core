@@ -10,6 +10,7 @@
     <Protobuf Include="Protos\greet.proto" GrpcServices="Server" />
 	  <Protobuf Include="Protos\jloka.proto" GrpcServices="Server" />
 	  <Protobuf Include="Protos\random_numbers.proto" GrpcServices="Server" />
+	  <Protobuf Include="Protos\random_numbers_client.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>

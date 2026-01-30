@@ -1,3 +1,16 @@
 syntax = "proto3";
 
 option csharp_namespace = "JLokaGrpcService.Protos";
+
+message SendRandomNumbersRequest {
+	int32 number = 1;
+}
+
+message SendRandomNumbersResponse {
+	int32 count = 1;
+	int32 sum = 2;
+}
+
+service RandomNumbersClient {
+	rpc SendRandomNumbersClient(stream SendRandomNumbersRequest) returns (SendRandomNumbersResponse);
+}
