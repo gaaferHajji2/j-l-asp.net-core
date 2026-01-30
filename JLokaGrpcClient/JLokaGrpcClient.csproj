@@ -24,6 +24,7 @@
     <Protobuf Include="Protos\greet.proto" GrpcServices="Client" />
     <Protobuf Include="Protos\jloka.proto" GrpcServices="Client" />
     <Protobuf Include="Protos\random_numbers.proto" GrpcServices="Client" />
+    <Protobuf Include="Protos\random_numbers_client.proto" GrpcServices="Client" />
   </ItemGroup>
 
 </Project>
