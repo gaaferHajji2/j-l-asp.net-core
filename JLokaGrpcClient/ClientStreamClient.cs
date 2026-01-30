@@ -20,7 +20,7 @@ namespace JLokaGrpcClient
                 });
                 await Task.Delay(100);
             }
-
+            // client don't send any thing until we call this method
             await clientStreamingCall.RequestStream.CompleteAsync();
 
             // Get the response
