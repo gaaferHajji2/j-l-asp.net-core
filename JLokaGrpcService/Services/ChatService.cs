@@ -11,6 +11,7 @@ namespace JLokaGrpcService.Services
             await foreach (var request in requestStream.ReadAllAsync())
             {
                 logger.LogInformation($"Received: {request.Message}");
+                logger.LogInformation($"Received: {request.Sender}");
                 await responseStream.WriteAsync(new ChatMessage
                 {
                     Message = $"You said: {request.Message.ToUpper()}",

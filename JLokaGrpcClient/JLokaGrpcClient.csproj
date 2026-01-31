@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Protobuf Include="Protos\chat_message.proto" GrpcServices="Client" />
     <Protobuf Include="Protos\greet.proto" GrpcServices="Client" />
     <Protobuf Include="Protos\jloka.proto" GrpcServices="Client" />
     <Protobuf Include="Protos\random_numbers.proto" GrpcServices="Client" />

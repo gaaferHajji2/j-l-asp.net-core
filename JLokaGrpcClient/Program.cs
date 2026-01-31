@@ -11,3 +11,6 @@ await randomClient.GetRandom();
 
 var clientStreamClient = new ClientStreamClient();
 await clientStreamClient.SendClientRandomNumbers();
+
+var biStreamChat = new BiStreamChat();
+await biStreamChat.SendMessage();
