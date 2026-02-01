@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="../GrpcClient02/GrpcClient02.csproj" Id="c12d1eca-e29f-4dc2-a156-f8fa2e45e002" />
+  <Project Path="../JLokaGrpc.API/JLokaGrpc.API.csproj" Id="faf53155-2d65-4bd0-85ec-455e9684afe6" />
   <Project Path="JLokaGrpcService02.csproj" />
 </Solution>
