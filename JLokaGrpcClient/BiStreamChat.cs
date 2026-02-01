@@ -1,4 +1,4 @@
-﻿using Grpc.Core;
+using Grpc.Core;
 using Grpc.Net.Client;
 using JLokaGrpcService.Protos;
 
@@ -38,7 +38,6 @@ namespace JLokaGrpcClient
             Console.WriteLine("Disconnecting...");
             await streamingCall.RequestStream.CompleteAsync();
             await responseReaderTask;
-
         }
     }
 }
