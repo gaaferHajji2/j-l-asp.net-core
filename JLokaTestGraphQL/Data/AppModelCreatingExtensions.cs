@@ -60,14 +60,16 @@ namespace JLokaTestGraphQL.Data
                         x => x.HasOne<Teacher>().WithMany(y => y.TeacherCourses)
                             .OnDelete(DeleteBehavior.NoAction),
                         x => x.HasOne<Course>().WithMany(y => y.TeacherCourses)
-                            .OnDelete(DeleteBehavior.Cascade));
+                            .OnDelete(DeleteBehavior.Cascade)
+                    );
                 b.HasMany(c => c.Students)
                     .WithMany(s => s.Courses)
                     .UsingEntity<StudentCourse>(
                         x => x.HasOne<Student>().WithMany(y => y.StudentCourses)
                             .OnDelete(DeleteBehavior.NoAction),
                         x => x.HasOne<Course>().WithMany(y => y.StudentCourses)
-                            .OnDelete(DeleteBehavior.Cascade));
+                            .OnDelete(DeleteBehavior.Cascade)
+                    );
 
             });
 

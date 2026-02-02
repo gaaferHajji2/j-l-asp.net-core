@@ -21,8 +21,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         //base.OnModelCreating(modelBuilder);
-        // modelBuilder.ConfigureModels();
-        // modelBuilder.SeedData();
+        modelBuilder.ConfigureModels();
+        modelBuilder.SeedData();
     }
 }
 

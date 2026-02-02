@@ -1,5 +1,6 @@
 using JLokaTestGraphQL.Data;
 using Microsoft.EntityFrameworkCore;
+using JLokaTestGraphQL.GraphQL.Types;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddGraphQLServer().AddQueryType<Query>();
 
 var app = builder.Build();
 
@@ -28,5 +30,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapGraphQL();
 
 app.Run();
