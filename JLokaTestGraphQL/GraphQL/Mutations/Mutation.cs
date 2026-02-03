@@ -2,7 +2,6 @@
 using JLokaTestGraphQL.Models;
 
 namespace JLokaTestGraphQL.GraphQL.Mutations;
-
 public class Mutation
 {
     public async Task<AddTeacherPayload> AddTeacherAsync(AddTeacherInput input, [Service] AppDbContext context)
