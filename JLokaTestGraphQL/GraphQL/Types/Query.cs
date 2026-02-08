@@ -5,7 +5,11 @@ using Microsoft.EntityFrameworkCore;
 namespace JLokaTestGraphQL.GraphQL.Types;
 public class Query
 {
-     //public async Task<List<Teacher>> GetTeachers([Service] AppDbContext context) => await context.Teachers.Include(x => x.Department).ToListAsync();
+    //public async Task<List<Teacher>> GetTeachers([Service] AppDbContext context) => await context.Teachers.Include(x => x.Department).ToListAsync();
+    //public TeacherType? Teacher { get; set; } = new();
+    //public async Task<Teacher?> GetTeacher(Guid id, [Service] AppDbContext context) => await context.Teachers.FindAsync(id);
+
+    public List<TeacherType> Teachers { get; set; } = new();
+
     public TeacherType? Teacher { get; set; } = new();
-    public async Task<Teacher?> GetTeacher(Guid id, [Service] AppDbContext context) => await context.Teachers.FindAsync(id);
 }

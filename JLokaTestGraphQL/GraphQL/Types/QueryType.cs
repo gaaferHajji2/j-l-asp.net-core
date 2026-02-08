@@ -1,4 +1,5 @@
 ﻿using JLokaTestGraphQL.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace JLokaTestGraphQL.GraphQL.Types
 {
@@ -6,6 +7,18 @@ namespace JLokaTestGraphQL.GraphQL.Types
     {
         protected override void Configure(IObjectTypeDescriptor<Query> descriptor)
         {
+
+            descriptor.Field(x => x.Teachers)
+            .Description("This is the list of teachers in the school.")
+            .Type<ListType<TeacherType>>()
+            .Resolve(async context =>
+            {
+                var db = context.Service<AppDbContext>();
+                var teachers = await db.Teachers.ToListAsync();
+                return teachers;
+            });
+
+
             descriptor.Field(x => x.Teacher).Name("teacher")
                 .Description("Simple QueryType")
                 .Type<TeacherType>()
@@ -13,7 +26,7 @@ namespace JLokaTestGraphQL.GraphQL.Types
                 .Resolve(async context =>
                 {
                     var id = context.ArgumentValue<Guid>("id");
-                    var teacher = await context.Service<AppDbContext>().Teachers.FindAsync("id");
+                    var teacher = await context.Service<AppDbContext>().Teachers.FindAsync(id);
                     return teacher;
                 });
         }
