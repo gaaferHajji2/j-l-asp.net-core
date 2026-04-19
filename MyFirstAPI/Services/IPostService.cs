@@ -12,6 +12,6 @@ namespace MyFirstAPI.Services
 
         public Task<List<Post>> GetAllPosts();
 
-        public Task DeletePost(int id);
+        public Task DeletePost(Post post);
     }
 }

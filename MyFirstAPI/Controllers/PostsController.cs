@@ -13,7 +13,6 @@ namespace MyFirstAPI.Controllers
         public async Task<ActionResult<List<Post>>> GetPosts()
         {
             var posts = await postService.GetAllPosts();
-
             return Ok(posts);
         }
 
@@ -21,12 +20,10 @@ namespace MyFirstAPI.Controllers
         public async Task<ActionResult<Post>> GetPost(int id)
         {
             var post = await postService.GetPost(id);
-
             if (post == null)
             {
                 return NotFound();  
             }
-
             return Ok(post);
         }
 
@@ -34,7 +31,6 @@ namespace MyFirstAPI.Controllers
         public async Task<ActionResult<Post>> CreatePost(Post post)
         {
             await postService.CreatePost(post);
-
             return CreatedAtAction(nameof(GetPost), new { id = post.Id}, post);
         }
 
@@ -45,14 +41,11 @@ namespace MyFirstAPI.Controllers
             {
                 return BadRequest();
             }
-
             var updatedPost = await postService.UpdatePost(id, post);
-
             if(updatedPost == null)
             {
                 return NotFound();
             }
-
             return Ok(updatedPost);
         }
 
@@ -60,14 +53,11 @@ namespace MyFirstAPI.Controllers
         public async Task<ActionResult> DeletePost(int id)
         {
             var post = await postService.GetPost(id);
-
             if(post == null)
             {
                 return NotFound();
             }
-
-            await postService.DeletePost(id);
-
+            await postService.DeletePost(post);
             return NoContent();
         }
     }

@@ -37,9 +37,9 @@ public class PostsService : IPostService
         return Task.FromResult(AllPosts);
     }
 
-    public Task DeletePost(int id)
+    public Task DeletePost(Post post)
     {
-        var post = AllPosts.FirstOrDefault(x => x.Id == id);
+        //var post = AllPosts.FirstOrDefault(x => x.Id == id);
         if (post != null) { 
             AllPosts.Remove(post);
         }
