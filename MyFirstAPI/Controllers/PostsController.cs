@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyFirstAPI.Models;
 using MyFirstAPI.Services;
-using System.Threading.Tasks;
 
 namespace MyFirstAPI.Controllers
 {
@@ -10,13 +9,6 @@ namespace MyFirstAPI.Controllers
     [Route("api/[controller]")]
     public class PostsController(IPostService postService) : Controller
     {
-        //private readonly IPostService _postsService;
-
-        //public PostsController(IPostService postsService)
-        //{
-        //    _postsService = postsService;
-        //}
-
         [HttpGet]
         public async Task<ActionResult<List<Post>>> GetPosts()
         {
