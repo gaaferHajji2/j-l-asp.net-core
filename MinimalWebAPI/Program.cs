@@ -41,11 +41,11 @@ app.MapGet("/weatherforecast", () =>
 .WithOpenApi();
 
 var list = new List<Post>()
- {
+{
     new() { Id = 1, Title = "First Post", Content = "Hello World" },
     new() { Id = 2, Title = "Second Post", Content = "Hello Again" },
     new() { Id = 3, Title = "Third Post", Content = "Goodbye World" },
- };
+};
 
 app.MapGet("/posts", async (IPostService postService) => await postService.GetPostsAsync()).WithName("Get Posts").WithTags("Posts").WithOpenApi();
 
