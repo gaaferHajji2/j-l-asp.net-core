@@ -1,5 +1,4 @@
-﻿using JLokaTestEFCore.enums;
-using JLokaTestEFCore.Models;
+﻿using JLokaTestEFCore.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace JLokaTestEFCore.Data
