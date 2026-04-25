@@ -1,5 +1,4 @@
 ﻿using JLokaTestEFCore.enums;
-using System.Text.Json.Serialization;
 
 namespace JLokaTestEFCore.Models
 {
