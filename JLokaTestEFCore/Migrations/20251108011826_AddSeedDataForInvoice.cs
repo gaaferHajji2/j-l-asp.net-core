@@ -13,8 +13,8 @@ namespace JLokaTestEFCore.Migrations
         {
             migrationBuilder.InsertData(
                 table: "Invoices",
-                columns: new[] { "Id", "Amount", "ContactName", "Description", "DueDate", "InvoiceDate", "InvoiceNumber", "Status" },
-                values: new object[] { new Guid("3212976a-1f5a-462b-b989-17a80f9f6e79"), 500000m, "JLoka", "Simple Description", new DateTimeOffset(new DateTime(2025, 1, 1, 1, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), new DateTimeOffset(new DateTime(2025, 1, 1, 1, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "JLoka-01", 1 });
+                columns: ["Id", "Amount", "ContactName", "Description", "DueDate", "InvoiceDate", "InvoiceNumber", "Status"],
+                values: [new Guid("3212976a-1f5a-462b-b989-17a80f9f6e79"), 500000m, "JLoka", "Simple Description", new DateTimeOffset(new DateTime(2025, 1, 1, 1, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), new DateTimeOffset(new DateTime(2025, 1, 1, 1, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "JLoka-01", 1]);
         }
 
         /// <inheritdoc />
