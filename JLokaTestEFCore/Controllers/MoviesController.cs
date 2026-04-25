@@ -33,12 +33,10 @@ namespace JLokaTestEFCore.Controllers
         public async Task<ActionResult<Movie>> GetMovie(Guid id)
         {
             var movie = await _context.Movies.FindAsync(id);
-
             if (movie == null)
             {
                 return NotFound();
             }
-
             return movie;
         }
 
@@ -80,7 +78,6 @@ namespace JLokaTestEFCore.Controllers
         {
             _context.Movies.Add(movie);
             await _context.SaveChangesAsync();
-
             return CreatedAtAction("GetMovie", new { id = movie.Id }, movie);
         }
 
@@ -96,7 +93,6 @@ namespace JLokaTestEFCore.Controllers
 
             _context.Movies.Remove(movie);
             await _context.SaveChangesAsync();
-
             return NoContent();
         }
 
