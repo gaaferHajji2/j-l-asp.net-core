@@ -67,7 +67,6 @@ namespace JLokaTestEFCore.Controllers
 
             t1.Status = invoice.Status;
             await _context.SaveChangesAsync();
-
             return NoContent();
         }
 
@@ -81,7 +80,6 @@ namespace JLokaTestEFCore.Controllers
             }
 
             var t1 = await _context.Invoices.FindAsync(invoice.Id);
-
             if(t1 != null)
             {
                 return Problem("Id is duplicated", statusCode: 400);
@@ -89,7 +87,6 @@ namespace JLokaTestEFCore.Controllers
 
             _context.Invoices.Add(invoice);
             await _context.SaveChangesAsync();
-
             return CreatedAtAction("GetInvoice", new { id = invoice.Id }, invoice);
         }
 
@@ -97,7 +94,6 @@ namespace JLokaTestEFCore.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteInvoice(Guid id)
         {
-
             if(_context.Invoices == null)
             {
                 return NotFound();
@@ -107,7 +103,6 @@ namespace JLokaTestEFCore.Controllers
 
             _context.Invoices.Remove(invoice);
             await _context.SaveChangesAsync();
-
             return NoContent();
         }
     }
