@@ -1,7 +1,4 @@
-﻿using ASP.NET_Core_Authentication___Authorization.Data;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Identity;
-
+﻿
 namespace ASP.NET_Core_Authentication___Authorization.Services
 {
     public class UserService
