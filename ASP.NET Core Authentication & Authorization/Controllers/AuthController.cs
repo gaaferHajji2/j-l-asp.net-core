@@ -1,12 +1,11 @@
 ﻿using ASP.NET_Core_Authentication___Authorization.Data;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using ASP.NET_Core_Authentication___Authorization.DTOs.Request;
 
 namespace ASP.NET_Core_Authentication___Authorization.Controllers
 {
