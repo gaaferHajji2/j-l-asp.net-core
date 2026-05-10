@@ -27,7 +27,6 @@ namespace ASP.NET_Core_Authentication___Authorization.Controllers
         }
 
         // === ROLE MANAGEMENT ===
-
         [HttpPost("roles")]
         public async Task<IActionResult> CreateRole([FromBody] string roleName)
         {

@@ -93,12 +93,12 @@ namespace ASP.NET_Core_Authentication___Authorization.Controllers
         private async Task<JwtSecurityToken> GenerateJwtTokenAsync(ApplicationUser user)
         {
             var claims = new List<Claim>
-        {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-            new Claim(JwtRegisteredClaimNames.Email, user.Email),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim("name", $"{user.FirstName} {user.LastName}")
-        };
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email ?? ""),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("name", $"{user.FirstName} {user.LastName}")
+            };
 
             // Add user roles as claims
             var roles = await _userManager.GetRolesAsync(user);
@@ -115,7 +115,8 @@ namespace ASP.NET_Core_Authentication___Authorization.Controllers
                 Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var expires = DateTime.UtcNow.AddMinutes(
-                Convert.ToDouble(_configuration["Jwt:ExpireMinutes"]));
+                    Convert.ToDouble(_configuration["Jwt:ExpireMinutes"])
+                );
 
             return new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],

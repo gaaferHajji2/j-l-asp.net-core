@@ -1,4 +1,5 @@
 ﻿using ASP.NET_Core_Authentication___Authorization.Data;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 
 namespace ASP.NET_Core_Authentication___Authorization.Services
@@ -12,14 +13,16 @@ namespace ASP.NET_Core_Authentication___Authorization.Services
             _logger = logger;
         }
 
-        public async Task<ApplicationUser> GetUserAsync(Guid id)
+        //public async Task<ApplicationUser> GetUserAsync(Guid id)
+        public Task GetUserAsync(Guid id)
         {
             _logger.LogInformation("Fetching user with ID: {UserId}", id);
 
             try
             {
                 // Your logic here
-                return await _userManager.FindByIdAsync(id.ToString());
+                // return await _userManager.FindByIdAsync(id.ToString());
+                return Task.CompletedTask;
             }
             catch (Exception ex)
             {

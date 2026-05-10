@@ -51,6 +51,13 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthentication();
 
+builder.Services.AddAuthorizationBuilder().AddPolicy("CanManageUsers", policy =>
+    policy.RequireClaim("Permission", "ManageUsers")
+).AddPolicy("CanViewReports", policy =>
+    policy.RequireClaim("Permission", "ViewReports").RequireRole("Admin", "Manager")
+);
+
+
 
 var app = builder.Build();
 
