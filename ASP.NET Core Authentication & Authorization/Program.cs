@@ -1,5 +1,7 @@
 using ASP.NET_Core_Authentication___Authorization.Data;
+using ASP.NET_Core_Authentication___Authorization.Handlers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -44,7 +46,7 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])
+            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)
         )
     };
 });
@@ -57,7 +59,8 @@ builder.Services.AddAuthorizationBuilder().AddPolicy("CanManageUsers", policy =>
     policy.RequireClaim("Permission", "ViewReports").RequireRole("Admin", "Manager")
 );
 
-
+// Register in Program.cs:
+builder.Services.AddSingleton<IAuthorizationHandler, ClaimRequirementHandler>();
 
 var app = builder.Build();
 
