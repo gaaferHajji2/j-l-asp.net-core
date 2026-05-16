@@ -72,7 +72,7 @@ namespace ASP.NET_Core_Authentication___Authorization.Controllers
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                EmailConfirmed = true // Set to false if you implement email confirmation
+                EmailConfirmed = true
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
