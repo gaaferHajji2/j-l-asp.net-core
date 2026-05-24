@@ -1,0 +1,6 @@
+@JLoka.ChatService_HostAddress = http://localhost:5094
+
+GET {{JLoka.ChatService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
