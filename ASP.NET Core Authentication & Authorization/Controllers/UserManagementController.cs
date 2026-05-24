@@ -100,7 +100,15 @@ namespace ASP.NET_Core_Authentication___Authorization.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null) return NotFound();
 
+            var claims = await _userManager.GetClaimsAsync(user);
             var newClaim = new Claim(claim.Type, claim.Value);
+
+            if (claims.Any(c => c.Type == newClaim.Type && c.Value == newClaim.Value))
+            {
+                return Conflict();
+            }
+
+            
             var result = await _userManager.AddClaimAsync(user, newClaim);
 
             if (!result.Succeeded) return BadRequest(result.Errors);
