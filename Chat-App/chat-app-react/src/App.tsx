@@ -1,4 +1,5 @@
 import './App.css'
+import WaitingRoom from './components/WaitingRoom';
 
 function App() {
   return (
@@ -6,6 +7,10 @@ function App() {
       <div className="px-5 my-5 w-full">
         <h1 className="text-4xl font-light">Welcome to JLoka Chat App</h1>
       </div>
+
+      <WaitingRoom joinChatRoom={(username: string, chatRoom:string) => {
+        console.log(`The username is: ${username} & chatRoom is: ${chatRoom}`)
+      }}/>
     </div>
   );
 }
