@@ -17,6 +17,8 @@ export default function WaitingRoom({ joinChatRoom }: Props) {
       alert("Please provide values for the username and chatRoom")
     } else {
       joinChatRoom(username, chatRoom)
+      setUsername('')
+      setChatRoom('')
     }
   };
 
