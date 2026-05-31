@@ -3,6 +3,7 @@ import './App.css'
 import WaitingRoom from './components/WaitingRoom'
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 import ChatRoom from './components/ChatRoom';
+import SendMessage from './components/SendMessage';
 
 function App() {
 
@@ -43,6 +44,8 @@ function App() {
       </div>
 
       <WaitingRoom joinChatRoom={joinChatRoom} />
+
+      {connection ? <SendMessage conn = {connection}></SendMessage> : null}
 
       <ChatRoom messages={messages} />
     </div>
