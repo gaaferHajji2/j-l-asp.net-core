@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import './App.css'
 import WaitingRoom from './components/WaitingRoom'
-import { HubConnection, HubConnectionBuilder, LogLevel} from '@microsoft/signalr'
+import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
+import ChatRoom from './components/ChatRoom';
 
 function App() {
 
   const [connection, setConnection] = useState<HubConnection>()
+  const [messages, setMessages] = useState<string[]>([])
+
   const joinChatRoom = async (username: string, chatRoom: string) => {
     try {
       const conn = new HubConnectionBuilder()
@@ -21,8 +24,12 @@ function App() {
         console.log("The username of receive msg is: ", username, ", and the msg is: ", msg)
       })
 
+      conn.on("ReceiveSpecificMessage", (username: string, msg: string) => {
+        setMessages(prev => [username + ": " + msg, ...prev])
+      })
+
       await conn.start()
-      await conn.invoke("JoinSpecificChatRoom", {username, chatRoom})
+      await conn.invoke("JoinSpecificChatRoom", { username, chatRoom })
       setConnection(conn)
     } catch (e) {
       console.log("Error during the connection: ", e)
@@ -35,7 +42,9 @@ function App() {
         <h1 className="text-4xl font-light">Welcome to JLoka Chat App</h1>
       </div>
 
-      <WaitingRoom joinChatRoom={joinChatRoom}/>
+      <WaitingRoom joinChatRoom={joinChatRoom} />
+
+      <ChatRoom messages={messages} />
     </div>
   );
 }
