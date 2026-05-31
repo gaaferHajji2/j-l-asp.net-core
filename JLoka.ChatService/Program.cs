@@ -1,3 +1,4 @@
+using JLoka.ChatService.DataService;
 using JLoka.ChatService.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,8 @@ builder.Services.AddCors(opts =>
         .AllowCredentials();
     });
 });
+
+builder.Services.AddSingleton<SharedDb>();
 
 var app = builder.Build();
 
