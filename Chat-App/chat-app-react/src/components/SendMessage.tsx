@@ -11,6 +11,7 @@ const SendMessage = ({ conn }: { conn: HubConnection}) => {
             e.preventDefault()
             
             await conn.invoke("SendMessage", value)
+            setValue('')
         }
     } 
       className="flex items-center max-w-md mx-auto bg-white rounded-full shadow-lg overflow-hidden border border-gray-100 p-1"
