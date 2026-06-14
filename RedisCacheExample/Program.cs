@@ -7,9 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddSingleton<ICarService, CarService>();
-builder.Services.AddSingleton<ICarCache, CarCache>();
-
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddStackExchangeRedisCache(options =>
@@ -17,6 +14,9 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
     options.InstanceName = "Car_";
 });
+
+builder.Services.AddSingleton<ICarService, CarService>();
+builder.Services.AddSingleton<ICarCache, CarCache>();
 
 var app = builder.Build();
 
