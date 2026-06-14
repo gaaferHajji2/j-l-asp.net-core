@@ -25,7 +25,13 @@ public class CarCache : ICarCache
         return JsonSerializer.Deserialize<T>(data);
     }
 
-    public void setData<T>(string key, T value)
+    public void InvalidateCache(string key)
+    {
+        _cache?.Remove("cars");
+        _cache?.Remove(key);
+    }
+
+    public void SetData<T>(string key, T value)
     {
         var options = new DistributedCacheEntryOptions()
         {

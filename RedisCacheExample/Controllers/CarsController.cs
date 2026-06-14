@@ -30,7 +30,7 @@ public class CarsController : ControllerBase
         }
 
         cars = await _carService.GetAllCarsAsync();
-        _cache.setData("cars", cars);
+        _cache.SetData("cars", cars);
         return Ok(cars);
     }
 
@@ -49,7 +49,7 @@ public class CarsController : ControllerBase
         if (car == null)
             return NotFound(new { message = $"Car with ID {id} not found" });
 
-        _cache.setData($"car_{id}", car);
+        _cache.SetData($"car_{id}", car);
         return Ok(car);
     }
 
@@ -59,7 +59,7 @@ public class CarsController : ControllerBase
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-
+        _cache.InvalidateCache("");
         var createdCar = await _carService.CreateCarAsync(car);
         return CreatedAtAction(nameof(GetCarById), new { id = createdCar.Id }, createdCar);
     }
@@ -79,6 +79,8 @@ public class CarsController : ControllerBase
         if (updatedCar == null)
             return NotFound(new { message = $"Car with ID {id} not found" });
 
+        _cache.InvalidateCache($"car_{id}");
+
         return Ok(updatedCar);
     }
 
@@ -90,6 +92,8 @@ public class CarsController : ControllerBase
 
         if (!result)
             return NotFound(new { message = $"Car with ID {id} not found" });
+
+        _cache.InvalidateCache($"car_{id}");
 
         return NoContent();
     }
