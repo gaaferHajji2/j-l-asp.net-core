@@ -1,6 +1,12 @@
-﻿namespace RedisCacheExample.Models
+﻿namespace RedisCacheExample.Models;
+
+public class Car
 {
-    public class Car
-    {
-    }
+    public int Id { get; set; }
+    public string Make { get; set; } = string.Empty;
+    public string Model { get; set; } = string.Empty;
+    public int Year { get; set; }
+    public decimal Price { get; set; }
+    public string Color { get; set; } = string.Empty;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }
