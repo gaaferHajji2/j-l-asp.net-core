@@ -1,4 +1,6 @@
-﻿namespace RedisCacheExample.Services;
+﻿using RedisCacheExample.Models;
+
+namespace RedisCacheExample.Services;
 
 public class CarService : ICarService
 {
