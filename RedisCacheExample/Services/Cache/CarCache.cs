@@ -29,7 +29,7 @@ public class CarCache : ICarCache
     {
         var options = new DistributedCacheEntryOptions()
         {
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(1)
         };
 
         _cache?.SetString(key, JsonSerializer.Serialize(value), options);

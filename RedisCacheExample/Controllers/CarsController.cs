@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RedisCacheExample.Models;
 using RedisCacheExample.Services;
+using RedisCacheExample.Services.Cache;
 
 namespace RedisCacheExample.Controllers;
 
@@ -9,17 +10,27 @@ namespace RedisCacheExample.Controllers;
 public class CarsController : ControllerBase
 {
     private readonly ICarService _carService;
+    private readonly ICarCache _cache;
 
-    public CarsController(ICarService carService)
+    public CarsController(ICarService carService, ICarCache carCache)
     {
         _carService = carService;
+        _cache = carCache;
     }
 
     // GET: api/cars
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Car>>> GetAllCars()
     {
-        var cars = await _carService.GetAllCarsAsync();
+        var cars = _cache.GetData<IEnumerable<Car>>("cars");
+        if(cars is not null)
+        {
+            Console.WriteLine("Getting The Cars From The Cache");
+            return Ok(cars);
+        }
+
+        cars = await _carService.GetAllCarsAsync();
+        _cache.setData("cars", cars);
         return Ok(cars);
     }
 
@@ -27,11 +38,18 @@ public class CarsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Car>> GetCarById(int id)
     {
-        var car = await _carService.GetCarByIdAsync(id);
+        var car = _cache.GetData<Car>($"car_{id}");
+        if(car is not null)
+        {
+            Console.WriteLine("Getting The Car From The Cache");
+            return Ok(car);
+        }
 
+        car = await _carService.GetCarByIdAsync(id);
         if (car == null)
             return NotFound(new { message = $"Car with ID {id} not found" });
 
+        _cache.setData($"car_{id}", car);
         return Ok(car);
     }
 
