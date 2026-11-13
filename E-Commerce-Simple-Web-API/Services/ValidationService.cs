@@ -3,13 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace E_Commerce_Simple_Web_API.Services
 {
-
-    public interface IValidationService
-    {
-        ValidationResult2 ValidateCreateProduct(CreateProductDto dto);
-        ValidationResult2 ValidateUpdateProduct(UpdateProductDto dto);
-    }
-
     public class ValidationService : IValidationService
     {
         public ValidationResult2 ValidateCreateProduct(CreateProductDto dto)
@@ -47,6 +40,4 @@ namespace E_Commerce_Simple_Web_API.Services
             return new ValidationResult2(true, new List<string>());
         }
     }
-
-    public record ValidationResult2(bool IsValid, List<string> Errors);
 }
