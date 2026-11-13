@@ -5,6 +5,9 @@ namespace E_Commerce_Simple_Web_API.Models
 {
     public class ECommerceDbContext: DbContext
     {
+
+        public DbSet<Product> Products => Set<Product>();
+
         public ECommerceDbContext(DbContextOptions<ECommerceDbContext> options) : base(options)
         {
         }
